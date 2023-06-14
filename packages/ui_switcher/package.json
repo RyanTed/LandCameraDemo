@@ -1,0 +1,15 @@
+{
+  "name": "ui_switcher",
+  "version": "0.0.2",
+  "description": "switch ui for custom",
+  "author": "Jaylin",
+  "main": "main.js",
+  "main-menu": {},
+  "panel": {
+    "main": "panel/index.js",
+    "type": "dockable",
+    "title": "ui_switcher",
+    "width": 400,
+    "height": 300
+  }
+}

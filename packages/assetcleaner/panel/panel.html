@@ -1,0 +1,156 @@
+<div id="warp" class="warp">
+    <div class="layout verticle" style="margin-top: 3px; margin-bottom: 3px;  margin-left: 5px;">
+        <div class="layout horizontal">
+            <ui-button @click="showAllFileInfo">查看所有资源信息</ui-button>
+            <ui-button @click="searchNoBindFile">查看未引用资源</ui-button>
+            <ui-button @click="findRepeatFile">查找重复资源</ui-button>
+            <ui-button @click="openLogFile">打开操作日志</ui-button>
+            <!-- <ui-button @click="findInvalidUUid">删除选中资源</ui-button> -->
+        </div>
+    </div>
+
+    <!-- 功能一的显示区域 -->
+    <div id='warp' v-if='funcIndex == 0'>
+        <div style="margin-bottom: 8px;" class="layout horizontal justified" v-if="funcIndex == 0">
+            <ui-select class="fileType" style="width: 120px; margin-left: 6px;" :value="curFileType" @change="switchFileType($event)">
+                <option value=".all">(类型).all</option>
+                <option v-for="item in fileTypes" value="{{item}}">{{item}}</option>
+            </ui-select>
+            <!-- <ui-hint style="flex: 11;" class="left" style="margin-top: 0px;">提示内容</ui-hint> -->
+            <!-- <ui-checkbox style="padding-right: 30px;">全选</ui-checkbox> -->
+        </div>
+        <section style="flex: 11; background-color: #222222; ">
+            <ul>
+                <li>
+                    <div class="name">文件名 ({{curFileType}})</div>
+                    <div class="path">路径</div>
+                    <div class="pathIcon">图标(仅限图片)</div>
+                    <div class="size">所占空间</div>
+                    <div class="func1Area"></div>
+                </li>
+
+                <li v-for="item in showItems" :style="{'background-color':item.color}" class="layout horizontal center">
+                    <div class="name">{{item.name}}</div>
+                    <div class="path">{{item.path}}</div>
+                    <div class="pathIcon" v-if="item.showImg">
+                        <img :src="getImgUrl(item.path)" alt="图" height="30px">
+                    </div>
+                    <div class="pathIcon" v-else="item.showImg"></div>
+                    <div class="size">{{item.size}} kb</div>
+                    <div class="func1Area">
+                        <ui-button class="fa fa-file" title="查看" @click="jumpResByFsPath(item.path)">跳转</ui-button>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <section style="flex: 5; margin-top: 10px; background-color: #222222;">
+            <ui-hint style="width: 70px; float: right;">统计信息</ui-hint>
+            <div v-html="showStr"></div>
+            <span></span>
+        </section>
+    </div>
+
+    <!-- 功能二的显示区域 -->
+    <div id='warp' v-if='funcIndex == 1'>
+        <ui-hint style="color: orange;">未引用的文件数量数量:{{noBindFileInfo}}</ui-hint>
+        <section style="flex: 5;  background-color: #222222;">
+            <ul>
+                <li class="layout horizontal center">
+                    <ui-checkbox class="checkBox" :checked='isNoBindFileAllChecked' @click='checkAll(noBindFile)'>全选
+                    </ui-checkbox>
+                    <div class="name">文件名</div>
+                    <div class="path">路径</div>
+                    <div class="pathIcon">图标(仅限图片)</div>
+                    <div class="size">所占空间</div>
+                    <div class="funcArea">
+                        <ui-button class="fa fa-file" @click="deleteAllCheckedFile()" style="width: 130px;">批量删除勾选文件
+                        </ui-button>
+                    </div>
+                </li>
+                <li v-for='item in noBindFile' :style="{'background-color':item.color}"
+                    class="layout horizontal center">
+                    <ui-checkbox class="checkBox" v-bind:checked="item.isChecked" @change="checkOne(item)">
+                    </ui-checkbox>
+                    <div class="name">{{item.name}}</div>
+                    <div class="path">{{item.path}}</div>
+                    <div class="pathIcon" v-if="item.showImg">
+                        <img :src="getImgUrl(item.path)" alt="图" height="30px">
+                    </div>
+                    <div class="pathIcon" v-else="item.showImg"></div>
+                    <div class="size">{{item.size}} KB</div>
+                    <div class="funcArea">
+                        <ui-button class="fa fa-file" title="查看" @click="jumpResByFsPath(item.path)">跳转</ui-button>
+                        <ui-button class="fa fa-file" title="删除" @click="deleteFile(item)">删除
+                        </ui-button>
+                    </div>
+                </li>
+                <!-- <file-item v-for="item in noBindFile" :data="item"></file-item> -->
+            </ul>
+        </section>
+        <ui-hint style="margin-top: 5px; color: orange;">未动态调用(无需放在resources文件夹)的文件数量:{{noLoadFileInfo}}(该功能暂时有一定局限性)
+        </ui-hint>
+        <section style="flex: 5;  background-color: #222222;" v-if='noLoadFile.length > 0'>
+            <ul>
+                <li class="layout horizontal center">
+                    <ui-checkbox class="checkBox" :checked='isNoLoadFileAllChecked' @click='checkAll(noLoadFile)'
+                        :style="{'color': tipColor}">全选</ui-checkbox>
+                    <div class="name">文件名</div>
+                    <div class="path">路径</div>
+                    <div class="pathIcon">图标(仅限图片)</div>
+                    <div class="size">所占空间</div>
+                    <div class="funcArea">
+                        <ui-button class="fa fa-file" @click="moveAllCheckedFile()" style="width: 130px;">批量移动勾选文件
+                        </ui-button>
+                    </div>
+                </li>
+                <li v-for='item in noLoadFile' :style="{'background-color':item.color}"
+                    class="layout horizontal center">
+                    <ui-checkbox class="checkBox" v-bind:checked="item.isChecked" @change="checkOne(item)">
+                    </ui-checkbox>
+                    <div class="name">{{item.name}}</div>
+                    <div class="path">{{item.path}}</div>
+                    <div class="pathIcon" v-if="item.showImg">
+                        <img :src="getImgUrl(item.path)" alt="图" height="30px">
+                    </div>
+                    <div class="pathIcon" v-else="item.showImg"></div>
+                    <div class="size">{{item.size}} KB</div>
+                    <div class="funcArea">
+                        <ui-button class="fa fa-file" title="查看" @click="jumpResByFsPath(item.path)">跳转</ui-button>
+                        <ui-button class="fa fa-file" title="移动" @click="onMoveFile([item])">移动</ui-button>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </div>
+
+    <!-- 功能三显示区域 -->
+    <div id='warp' v-if='funcIndex == 2'>
+        <section style="flex: 11; background-color: #222222; ">
+            <ul>
+                <li>
+                    <div class="name">文件名</div>
+                    <div class="path">路径</div>
+                </li>
+
+                <li v-for="item in repeatInfo" class="layout horizontal center">
+                    <div class="name">{{item.fileName}}</div>
+                    <ul class="path">
+                        <li v-for="path in item.path" class="layout horizontal center" style="display: flex;">
+                            <div class="path" style="flex: 1.5;">
+                                {{path}}
+                            </div>
+                            <!-- //<div style="flex: 1;">{{getImgRect(path)}}</div> -->
+                            <div style="flex: 1;">
+                                <img :src="getImgUrl(path,true)" alt="图"  height="30px" >
+                            </div>
+                            <div style="flex: 0.5;">
+                                <ui-button class="fa fa-file" title="查看" @click="jumpResByUrl(path)">跳转</ui-button>
+                                <ui-button class="fa fa-file" title="删除" @click="onDeleteClick(item.fileName, path)">删除
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </div>
+</div>

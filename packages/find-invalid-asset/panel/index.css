@@ -1,0 +1,35 @@
+.container {
+    margin: 10px;
+    display: flex;
+    height: 100%;
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#table-ex {
+    font-size: 13px;
+    margin: 22px;
+    border-collapse: collapse;
+    text-align: center;
+    width: 100%;
+}
+
+#table-ex th {
+    font-size: 14px;
+    font-weight: normal;
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #666666;
+}
+
+#table-ex td {
+    padding: 8px;
+    border-bottom: 1px solid #666666;
+    border-top: 1px solid transparent;
+}
+
+#table-ex tbody tr:hover td {
+    color: #000000;
+    background: #F5F7FA;
+}

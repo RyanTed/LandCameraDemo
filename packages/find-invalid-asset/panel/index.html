@@ -1,0 +1,38 @@
+<div class="container">
+    <ui-prop name="查找无效的资源引用:" tooltip="查找无效的资源引用">
+        <div class="layout horizontal center flex-1">
+            <ui-button class="self-end blue" @confirm="searchAsset()">开始查找</ui-button>
+        </div>
+        <!-- <div class="layout horizontal center flex-1">
+            <ui-drop-area droppable="file">file</ui-drop-area>
+        </div> -->
+    </ui-prop>
+
+    <div id="invalid-asset" style="width: 100%; height: 100%; overflow-y: scroll; overflow-x: scroll;">
+        <table id="table-ex">
+            <ui-loader v-if="loading"></ui-loader>
+            <thead>
+                <tr>
+                    <th scope="col">uuid</th>
+                    <th scope="col">资源路径</th>
+                    <th scope="col">节点路径</th>
+                    <th scope="col">组件类型</th>
+                    <th style="min-width: 250px" scope="col">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in invalidAsset">
+                    <td style="word-break: break-all;">{{item.uuid}}</td>
+                    <td style="word-break: break-all;">{{item.url}}</td>
+                    <td style="word-break: break-all;">{{item.path}}</td>
+                    <td>{{item.type}}</td>
+                    <td>
+                        <ui-button class="tiny" @confirm="lightRes(item.assetUuid)">资源高亮</ui-button>
+                        <ui-button class="tiny" @confirm="openNode(item.assetUuid)">打开节点</ui-button>
+                        <ui-button class="tiny" @confirm="ligthNode(item.nodeUuid)">节点高亮</ui-button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

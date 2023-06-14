@@ -1,0 +1,305 @@
+<div class="layout vertical" style="height: 100%">
+    <div class="layout vertical" style="overflow-y:scroll;">
+        <div style="display:flex;" class="">
+            <ui-hint>场景闪电编</ui-hint>
+            <ui-button id="help_doc">文档</ui-button>
+            <ui-button id="new_version_tip" class="blue" hidden=true>有新版本啦！</ui-button>
+        </div>
+        <div style="display:flex;" class="layout horizonal">
+            <ui-label>`键清空指令|</ui-label>
+            <ui-label id="selected_nodes_count" style="color:orange;">已选节点个数:0</ui-label>
+            <ui-checkbox id="enable_keyboard" checked>启用键盘指令</ui-checkbox>
+        </div>
+        <ui-hint id="vi_cmds" class="green">指令:</ui-hint>
+        <ui-box-container style="overflow-y:scroll;">
+            <ui-section folded>
+                <div class="header">批量重命名</div>
+                <ui-box-container style="display:block;">
+                    <ui-prop id="batch_rename_with_prefix_id_prefix" name="前缀名" type="string" value=""></ui-prop>
+                    <ui-checkbox id="batch_rename_with_prefix_id_notsuffix">不使用计数当后缀</ui-checkbox>
+                    <ui-checkbox id="batch_rename_with_prefix_id_reverseorder">倒序</ui-checkbox>
+                    <ui-checkbox id="batch_rename_with_prefix_id_groupByParent">按父节点分组</ui-checkbox>
+                    <div class="group" style="display: flex;">
+                        <!-- <ui-hint class="label">从几开始计数</ui-hint>
+                        <ui-num-input id="batch_rename_with_prefix_id_startnum" type="int" value="1"></ui-num-input> -->
+                        <ui-prop id="batch_rename_with_prefix_id_startnum" name="初始计数" type="number" input-type="int" min=0 value="1"></ui-prop>
+                    </div>
+                    <div class="group" style="display: flex;">
+                        <!-- <ui-hint class="label">头部0补齐位数</ui-hint>
+                        <ui-num-input id="batch_rename_with_prefix_id_reserved" type="int" value="0"></ui-num-input> -->
+                        <ui-prop id="batch_rename_with_prefix_id_reserved" name="补齐位数" type="number" input-type="int" value="1" min=1 max=10></ui-prop>
+                    </div>
+                    <ui-button class="blue" id="batch_rename_with_prefix_id_btn">应用</ui-button>
+                    <ui-box-container>
+                        <ui-button class="blue" id="batch_rename_shift_btn">选中节点命名移位</ui-button>
+                    </ui-box-container>
+                </ui-box-container>
+            </ui-section>
+            <ui-section folded>
+                <div class="header">选择节点[快捷键]</div>
+                <ui-box-container style="display:block;">
+                    <div style="display:flex;">
+                        <ui-input id="select_by_prefix_input"></ui-input>
+                        <ui-button id="select_by_prefix_btn">按前缀名选择</ui-button>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="vi_select_children_btn" class="blue">选中孩子节点</ui-button>
+                        <div>快捷键 先s后c</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="vi_select_brother_btn" class="blue">选中兄弟节点</ui-button>
+                        <div>快捷键 先s后b</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="vi_select_parent_btn" class="blue">选中父节点</ui-button>
+                        <div>快捷键 先s后p</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="vi_select_all_btn" class="blue">递归选中孩子节点</ui-button>
+                        <div>快捷键 先s后a</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="vi_select_inverse_btn" class="blue">选中其他兄弟节点</ui-button>
+                        <div>快捷键 先s后i</div>
+                    </div>
+                </ui-box-container>
+            </ui-section>
+            <ui-section folded>
+                <div class="header">拷贝属性</div>
+                <ui-box-container style="display:block;">
+                    <div style="display:flex;">
+                        <ui-label>参照节点,拖到此处</ui-label>
+                        <ui-node id="copy_attr_node"></ui-node>
+                    </div>
+                    <ui-checkbox id="copy_attr_x">X坐标</ui-checkbox>
+                    <ui-checkbox id="copy_attr_y">Y坐标</ui-checkbox>
+                    <ui-checkbox id="copy_attr_anchor" checked>锚点</ui-checkbox>
+                    <ui-checkbox id="copy_attr_angle" checked>角度</ui-checkbox>
+                    <ui-checkbox id="copy_attr_scale" checked>缩放</ui-checkbox>
+                    <ui-button id="copy_attr_btn" class="blue">拷贝参照节点属性到选中节点</ui-button>
+                </ui-box-container>
+            </ui-section>
+            <ui-section folded>
+                <div class="header">重置节点[快捷键]</div>
+                    <div style="display:flex;">
+                        <ui-button id="vi_reset_everything_btn" class="blue">重置所有节点属性</ui-button>
+                        <div>快捷键 先r后e</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="vi_reset_position_btn" class="blue">重置位置到0,0</ui-button>
+                        <div>快捷键 先r后p</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="vi_reset_rotation_btn" class="blue">重置旋转到0</ui-button>
+                        <div>快捷键 先r后r</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="vi_reset_anchor_btn" class="blue">重置锚点到0.5,0.5</ui-button>
+                        <div>快捷键 先r后a</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="vi_reset_scale_btn" class="blue">重置缩放到1,1</ui-button>
+                        <div>快捷键 先r后s</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="vi_reset_x_btn" class="blue">重置x到0</ui-button>
+                        <div>快捷键 先r后x</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="vi_reset_y_btn" class="blue">重置y到0</ui-button>
+                        <div>快捷键 先r后y</div>
+                    </div>
+            </ui-section>
+            <ui-section folded>
+                <div class="header">添加孩子/替换资源/粘贴</div>
+                <ui-box-container style="display:block;">
+                    <ui-box-container>
+                        <div class="flex-1 layout vertical" id="drop_for_add_images_area" 
+                        ondrop="drop_for_add_images(event)"
+                        ondragover="dragOver(event)" 
+                        ondragenter="dragEnter(event)" 
+                        ondragleave="dragLeave(event)">
+                            [拖拽图片到这里] 添加到选中节点下
+                        </div>
+                    </ui-box-container>
+                    <ui-box-container>
+                        <div class="flex-1 layout vertical" id="drop_for_replace_texture_area" 
+                        ondrop="drop_for_add_images(event)"
+                        ondragover="dragOver(event)" 
+                        ondragenter="dragEnter(event)" 
+                        ondragleave="dragLeave(event)">
+                            [拖拽图片到这里] 替换选中节点纹理
+                        </div>
+                    </ui-box-container>
+                    <ui-box-container>
+                        <ui-button id="paste_nodes_each_btn" class="blue">选中节点分别粘贴</ui-button>
+                    </ui-box-container>
+                </ui-box-container>
+            </ui-section>
+            <ui-section folded>
+                <div class="header">等间距</div>
+                <ui-box-container>
+                    <ui-box-container style="display:block;">
+                        <ui-prop id="horizon_equaldistance_distance" name="水平等间距" type="number" value="10"></ui-prop>
+                        <ui-button id="horizon_equaldistance_btn" class="blue">应用</ui-button>
+                    </ui-box-container>
+                    <ui-box-container style="display:block;">
+                        <ui-prop id="vertical_equaldistance_distance" name="垂直等间距" type="number" value="10"></ui-prop>
+                        <ui-button id="vertical_equaldistance_btn" class="blue">应用</ui-button>
+                    </ui-box-container>
+                    <ui-box-container style="display:block;">
+                        <ui-button id="horizon_align_btn" class="blue">选中节点组按边沿水平对齐</ui-button>
+                        <ui-button id="vertical_align_btn" class="blue">选中节点组按边沿垂直对齐</ui-button>
+                    </ui-box-container>
+                </ui-box-container>
+            </ui-section>
+            <ui-section folded>
+                <div class="header">排序</div>
+                <ui-box-container>
+                    <ui-box-container style="display:block;">
+                        <ui-hint>按X坐标排序</ui-hint>
+                        <ui-checkbox id="sort_with_position_x_check">降序</ui-checkbox>
+                        <ui-button id="sort_with_position_x_btn" class="blue">应用</ui-button>
+                    </ui-box-container>
+                    <ui-box-container style="display:block;">
+                        <ui-hint>按Y坐标排序</ui-hint>
+                        <ui-checkbox id="sort_with_position_y_check">降序</ui-checkbox>
+                        <ui-button id="sort_with_position_y_btn" class="blue">应用</ui-button>
+                    </ui-box-container>
+                    <ui-box-container style="display:block;">
+                    <ui-button class="blue" id="sort_reverse_order_btn">选中节点顺序颠倒</ui-button>
+                    </ui-box-container>
+                </ui-box-container>
+            </ui-section>
+            <ui-section folded>
+                <div class="header">扇形/圆形布局</div>
+                <ui-box-container style="display:block;">
+                    <ui-prop id="fan_layout_startangle" name="起始角度" type="number" value="0"></ui-prop>
+                    <ui-prop id="fan_layout_angle" name="扇形角度" type="number" value="360"></ui-prop>
+                    <ui-prop id="fan_layout_radius" name="半径" type="number" value="500"></ui-prop>
+                    <ui-prop id="fan_layout_radiusDelta" name="半径梯度" type="number" value="0"></ui-prop>
+                    <ui-checkbox id="fan_layout_anticlockwise">逆时针</ui-checkbox>
+                    <ui-checkbox id="fan_layout_faceToCenter">朝向圆心</ui-checkbox>
+                    <ui-checkbox id="fan_layout_inWorldCoord">在世界坐标系下计算</ui-checkbox>
+                    <ui-prop id="fan_layout_faceToCenterAngle" name="朝向角偏移" type="number" value="0"></ui-prop>
+                    <ui-button id="fan_layout_btn" class="blue">应用</ui-button>
+                </ui-box-container>
+            </ui-section>
+            <ui-section folded>
+                <div class="header">格子布局</div>
+                <ui-box-container style="display:block;">
+                    <ui-prop id="grid_layout_row" name="行数" type="number" input-type="int" min=1 value="3"></ui-prop>
+                    <ui-prop id="grid_layout_col" name="列数" type="number" input-type="int" min=1 value="3"></ui-prop>
+                    <ui-prop id="grid_layout_deltaX" name="横向间隔" type="number" min=0 value="200"></ui-prop>
+                    <ui-prop id="grid_layout_deltaY" name="纵向间隔" type="number" min=0 value="200"></ui-prop>
+                    <ui-prop id="grid_layout_gradX" name="横向梯度" type="number" value=0></ui-prop>
+                    <ui-prop id="grid_layout_gradY" name="纵向梯度" type="number" value=0></ui-prop>
+                    <ui-select id="grid_layout_dirVertical" value="top_to_down">
+                        <option value="top_to_down">从上到下</option>
+                        <option value="down_to_top">从下到上</option>
+                    </ui-select>
+                    <ui-select id="grid_layout_dirHorizon" value="left_to_right">
+                        <option value="left_to_right">从左到右</option>
+                        <option value="right_to_left">从右到左</option>
+                    </ui-select>
+                    <ui-checkbox id="grid_layout_columFirst">列优先</ui-checkbox>
+                    <ui-checkbox id="grid_layout_inWorldCoord">在世界坐标系下计算</ui-checkbox>
+                    <ui-button id="grid_layout_btn" class="blue">应用</ui-button>
+                </ui-box-container>
+            </ui-section>
+            <ui-section folded>
+                <div class="header">相对Canvas矩形对齐[快捷键]</div>
+                <ui-box-container style="display:block;">
+                    <div style="display:flex;">
+                        <ui-button id="align_to_screen_left_btn" class="blue">对齐窗口左边沿</ui-button>
+                        <div>快捷键 先A后l</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="align_to_screen_right_btn" class="blue">对齐窗口右边沿</ui-button>
+                        <div>快捷键 先A后r</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="align_to_screen_top_btn" class="blue">对齐窗口上边沿</ui-button>
+                        <div>快捷键 先A后t</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="align_to_screen_bottom_btn" class="blue">对齐窗口下边沿</ui-button>
+                        <div>快捷键 先A后b</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="align_to_screen_center_btn" class="blue">对齐窗口中心</ui-button>
+                        <div>快捷键 先A后c</div>
+                    </div>
+                </ui-box-container>
+            </ui-section>
+            <ui-section folded>
+                <div class="header">相对父节点矩形对齐[快捷键]</div>
+                <ui-box-container style="display:block;">
+                    <div style="display:flex;">
+                        <ui-button id="align_contentSize_to_boundingBox_btn" class="green">Size和包围盒对齐</ui-button>
+                        <div>快捷键 先a后s</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="align_to_parent_left_btn" class="blue">对齐父节点左边沿</ui-button>
+                        <div>快捷键 先a后l</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="align_to_parent_right_btn" class="blue">对齐父节点右边沿</ui-button>
+                        <div>快捷键 先a后r</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="align_to_parent_top_btn" class="blue">对齐父节点上边沿</ui-button>
+                        <div>快捷键 先a后t</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="align_to_parent_bottom_btn" class="blue">对齐父节点下边沿</ui-button>
+                        <div>快捷键 先a后b</div>
+                    </div>
+                    <div style="display:flex;">
+                        <ui-button id="align_to_parent_center_btn" class="blue">对齐父节点中心</ui-button>
+                        <div>快捷键 先a后c</div>
+                    </div>
+                </ui-box-container>
+            </ui-section>
+            <ui-section folded>
+                <div class="header">成对操作(选中两个节点)</div>
+                <div style="display:flex;">
+                    <ui-button id="align_nearest_edge_horizon_btn" class="green">[水平吸附]和最近水平边沿对齐</ui-button>
+                    <div>快捷键 先a后h</div>
+                </div>
+                <div style="display:flex;">
+                    <ui-button id="align_nearest_edge_vertical_btn" class="green">[垂直吸附]和最近的竖直边沿对齐</ui-button>
+                    <div>快捷键 先a后v</div>
+                </div>
+                <div style="display:flex;">
+                    <ui-button id="swap_position_btn" class="green">交换位置</ui-button>
+                </div>
+            </ui-section>
+            <ui-section folded>
+                <div class="header">节点多对多操作</div>
+                <div style="display:block;">
+                    <ui-label id="many_to_many_tip_number_of_cache" style="color:orange;">缓存节点:个数0</ui-label>
+                    <br>
+                    <ui-button id="many_to_many_cache_btn" class="green">选中节点添加到缓存</ui-button>
+                    <div>把选中节点添加到缓存队列</div>
+                </div>
+                <div style="display:block;">
+                    <ui-button id="many_to_many_moveto_btn" class="green">多对多移动节点</ui-button>
+                    <div>[选中节点]一一对应移动到[缓存节点]下</div>
+                </div>
+            </ui-section>
+            <ui-section folded>
+                <div class="header">prefab相关</div>
+                <ui-button id="revert_all_prefabs_in_scene_autosync_btn" class="blue">场景中所有prefab节点设为自动同步</ui-button>
+                <ui-button id="revert_prefabs_of_selected_autosync_btn" class="blue">选中的prefab节点设为自动同步</ui-button>
+                <ui-button id="revert_prefabs_of_related_autosync_btn" class="blue">选中节点有相同prefab的节点设为自动同步</ui-button>
+                <ui-checkbox id="new_created_prefab_node_set_autosync">新建节点或选中节点自动设置为自动同步</ui-checkbox>
+            </ui-section>
+            <ui-section folded>
+                <div class="header">反馈 QQ群:1005282725</div>
+                <ui-hint>谢谢支持</ui-hint>>
+                <ui-button id="join_qq_group" class="blue">加入QQ群</ui-button>
+            </ui-section>
+        </ui-box-container>
+    </div>
+</div>

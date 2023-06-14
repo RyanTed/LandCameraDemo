@@ -1,0 +1,23 @@
+{
+  "name": "ggreplacer",
+  "version": "0.0.3",
+  "description": "引用资源替换.",
+  "author": "Cocos Creator",
+  "main": "main.js",
+  "main-menu": {
+    "i18n:MAIN_MENU.package.title/引用资源替换": {
+      "message": "ggreplacer:open"
+    }
+  },
+  "panel": {
+    "main": "panel/index.js",
+    "type": "dockable",
+    "title": "资源一键替换",
+    "width": 1000,
+    "height": 700,
+    "engineSupport": true
+  },
+  "reload": {
+    "main": ["main.js"]
+  }
+}

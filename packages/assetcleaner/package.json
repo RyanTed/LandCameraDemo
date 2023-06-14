@@ -1,0 +1,24 @@
+{
+  "name": "assetcleaner",
+  "version": "0.0.1",
+  "description": "Creator AssetCleaner Tools",
+  "author": "VisualSJ",
+  "main": "main.js",
+  "main-menu": {
+    "工具/AssetCleaner": {
+      "message": "assetcleaner:run"
+    }
+  },
+  "panel": {
+    "main": "panel/panel.js",
+    "type": "dockable",
+    "title": "AssetCleaner Tools",
+    "width": 1200,
+    "height": 600,
+    "messages": []
+  },
+  "dependencies": {
+    "@types/images": "^2.2.2",
+    "images": "^3.0.2"
+  }
+}

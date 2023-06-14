@@ -1,0 +1,33 @@
+{
+    "name": "resource_manager",
+    "version": "1.2.2",
+    "description": "资源预览",
+    "author": "eycode",
+    "main": "main.js",
+    "main-menu": {
+        "i18n:MAIN_MENU.package.title/i18n:resource_manager.title": {
+            "message": "resource_manager:open"
+        }
+    },
+    "panel": {
+        "main": "panel/index.js",
+        "type": "dockable",
+        "title": "资源预览",
+        "width": 400,
+        "height": 300
+    },
+    "reload": {
+        "renderer": [
+            "panel/**/*"
+        ],
+        "ignore": [
+            "CHANGELOG.md",
+            "README.md",
+            "README.en.md"
+        ],
+        "main": []
+    },
+    "dependencies": {
+        "image-size": "^1.0.0"
+    }
+}

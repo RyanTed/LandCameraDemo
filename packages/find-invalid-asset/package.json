@@ -1,0 +1,20 @@
+{
+  "name": "find-invalid-asset",
+  "version": "1.0.0",
+  "description": "查找无效的资源引用",
+  "author": "渡鸦",
+  "main": "main.js",
+  "main-menu": {
+    "扩展/查找无效的资源引用": {
+      "message": "find-invalid-asset:open"
+    }
+  },
+  "panel": {
+    "main": "panel/index.js",
+    "type": "dockable",
+    "engineSupport": true,
+    "title": "查找无效的资源引用",
+    "width": 960,
+    "height": 640
+  }
+}

@@ -1,0 +1,42 @@
+<!--
+ * @Author: eycode
+ * @Date: 2021-08-04 11:24:53
+ * @LastEditTime: 2021-08-10 10:56:03
+ * @LastEditors: eycode
+ * @Description: 
+ * @Other: 
+-->
+
+<div class='main'>
+    <!-- 上一级 -->
+    <div class="item" v-if="isBack" @click="gobackBtn">
+        <div class="img-box">
+            <img :src="backIcon">
+        </div>
+        <p class="main-span">上一级</p>
+    </div>
+
+    <!-- 目录展示 -->
+    <div class="item" v-if="isDir" v-for="item in fileList" :key=item.name draggable="true" @dragstart="dragstart($event, item)" @dragend="dragend" @click="selectFile($event, item)">
+        <div class="img-box">
+            <img :src="item.icon" :alt="item.name">
+        </div>
+        <p class="main-span">{{item.name}}</p>
+    </div>
+
+    <!-- 单文件展示 -->
+    <div class="file-item" v-if="isFile" v-for="item in fileList" :key=item.name draggable="true" @dragstart="dragstart($event, item)" @dragend="dragend" @click="selectFile($event, item)">
+        <div class="file-img-box" title="可以直接拖拽到节点属性上哟">
+            <img :src="item.icon" :alt="item.name" v-if="item.type === '.png' || item.type === '.jpg'" >
+            <span v-else>该文件类型不支持预览</span>
+        </div>
+        <div class="file-p-box">
+            <span class="file-p">文件名: {{item.name}}</span>
+            <span class="file-p">大小: {{item.size}}</span>
+            <span class="file-p" v-if="item.resolution !== ''">像素: {{item.resolution}}</span>
+            <span class="file-p" :title="item.uuid">UUID: {{item.uuid}}</span>
+            <span class="file-p" :title="item.path">PATH: {{item.path}}</span>
+        </div>
+
+    </div>
+</div>
